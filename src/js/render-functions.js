@@ -43,3 +43,10 @@ export function showLoader() {
 export function hideLoader() {
   document.getElementById('loader-text').classList.add('hidden');
 }
+export function showLoadMoreButton() {
+  document.querySelector('.load-more')?.classList.remove('hidden');
+}
+
+export function hideLoadMoreButton() {
+  document.querySelector('.load-more')?.classList.add('hidden');
+}
