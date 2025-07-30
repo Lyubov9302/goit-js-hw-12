@@ -46,68 +46,27 @@ form.addEventListener('submit', async (e) => {
   }
 });
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
 
-  query = input.value.trim();
-  if (!query) {
-    iziToast.warning({ title: 'Увага!', message: 'Введіть запит для пошуку зображень.', position: 'topRight' });
-    return;
-  }
-
-  page = 1;
-  clearGallery();
-  hideLoadMoreButton();
+loadMoreBtn.addEventListener('click', async () => {
+  page += 1;
   showLoader();
 
   try {
     const data = await getImagesByQuery(query, page);
-    totalHits = data.totalHits;
+    createGallery(data.hits);
 
-    if (data.hits.length === 0) {
-      iziToast.info({ message: 'Нічого не знайдено за цим запитом.', position: 'topRight' });
-    } else {
-      createGallery(data.hits);
-      if (page * 15 < totalHits) {
-        showLoadMoreButton();
-      }
+    if (page * 15 >= totalHits) {
+      hideLoadMoreButton();
+      iziToast.info({
+        message: "Це всі зображення, більше немає!",
+        position: 'topRight',
+      });
     }
   } catch (error) {
-    iziToast.error({ message: 'Помилка при завантаженні зображень!', position: 'topRight' });
-    console.error(error);
-  } finally {
-    hideLoader();
-  }
-});
-
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  query = input.value.trim();
-  if (!query) {
-    iziToast.warning({ title: 'Увага!', message: 'Введіть запит для пошуку зображень.', position: 'topRight' });
-    return;
-  }
-
-  page = 1;
-  clearGallery();
-  hideLoadMoreButton();
-  showLoader();
-
-  try {
-    const data = await getImagesByQuery(query, page);
-    totalHits = data.totalHits;
-
-    if (data.hits.length === 0) {
-      iziToast.info({ message: 'Нічого не знайдено за цим запитом.', position: 'topRight' });
-    } else {
-      createGallery(data.hits);
-      if (page * 15 < totalHits) {
-        showLoadMoreButton();
-      }
-    }
-  } catch (error) {
-    iziToast.error({ message: 'Помилка при завантаженні зображень!', position: 'topRight' });
+    iziToast.error({
+      message: 'Помилка при підвантаженні зображень!',
+      position: 'topRight',
+    });
     console.error(error);
   } finally {
     hideLoader();
