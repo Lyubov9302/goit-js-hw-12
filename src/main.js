@@ -8,7 +8,6 @@ let page = 1;
 let totalHits = 0;
 
 const loadMoreBtn = document.querySelector('.load-more');
-
 const form = document.querySelector('.form');
 const input = document.querySelector('input[name="search-text"]');
 
@@ -54,6 +53,16 @@ loadMoreBtn.addEventListener('click', async () => {
   try {
     const data = await getImagesByQuery(query, page);
     createGallery(data.hits);
+   
+
+    const { height: cardHeight } = document
+  .querySelector('.gallery')
+  .firstElementChild.getBoundingClientRect();
+
+window.scrollBy({
+  top: cardHeight * 2,
+  behavior: 'smooth',
+});
 
     if (page * 15 >= totalHits) {
       hideLoadMoreButton();
