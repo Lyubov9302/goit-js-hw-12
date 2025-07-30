@@ -58,7 +58,7 @@ loadMoreBtn.addEventListener('click', async () => {
     if (page * 15 >= totalHits) {
       hideLoadMoreButton();
       iziToast.info({
-        message: "Це всі зображення, більше немає!",
+        message: "We're sorry, but you've reached the end of search results.",
         position: 'topRight',
       });
     }
